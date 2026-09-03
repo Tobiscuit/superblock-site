@@ -1,0 +1,14 @@
+{
+  // Cloudflare Workers Static Assets - the successor to Pages for new projects.
+  // No "main" entry: with only `assets` and no script, this is a pure static
+  // deployment and Cloudflare serves dist/ from the edge with no Worker
+  // invocation, so it stays on the free tier and has no cold start.
+  "name": "superblock-site",
+  "compatibility_date": "2026-09-03",
+  "assets": {
+    "directory": "./dist"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

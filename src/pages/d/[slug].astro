@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const all = await getCollection('diagrams');
+  return all.map((d) => ({ params: { slug: d.id }, props: { d } }));
+}
+
+const { d } = Astro.props;
+const groupLabel: Record<string, string> = {
+  practice: 'Architecture practice',
+  platform: 'Platform',
+  product: 'Product',
+  proposed: 'Designed, not deployed',
+};
+---
+<Base title={`${d.data.title} — superblock`} description={d.data.blurb}>
+  <main class="wrap" style="padding-top:48px;padding-bottom:24px">
+    <div class="eyebrow">{groupLabel[d.data.group]}</div>
+    <h1 style="font-size:clamp(26px,4vw,38px);margin:10px 0 14px">{d.data.title}</h1>
+    <p class="narrow" style="color:var(--mute);font-size:17px">{d.data.blurb}</p>
+
+    {d.data.status === 'proposed' && (
+      <div class="note narrow" style="margin-top:22px">
+        <strong>Designed, not deployed.</strong> This is a worked design with no running
+        implementation. It is included because the reasoning is the artefact.
+      </div>
+    )}
+
+    <figure class="diagram" style="margin-top:28px">
+      <img src={`/diagrams/${d.id}.svg`} alt={d.data.title} loading="eager" />
+    </figure>
+
+    <p style="margin-top:24px"><a href="/">&larr; All diagrams</a></p>
+  </main>
+</Base>

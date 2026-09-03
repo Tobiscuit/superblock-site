@@ -1,0 +1,49 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap inner">
+        <a class="brand" href="/">superblock</a>
+        <nav>
+          <a href="/#practice">Practice</a>
+          <a href="/#platform">Platform</a>
+          <a href="/#product">Product</a>
+        </nav>
+      </div>
+    </header>
+    <slot />
+    <footer class="site">
+      <div class="wrap">
+        Architecture diagrams rendered from D2 sources. Network addresses redacted.<br />
+        <a href="https://fluency.study">fluency.study</a> &middot;
+        <a href="https://jrcodex.dev">jrcodex.dev</a> &middot;
+        <a href="https://github.com/Tobiscuit">github.com/Tobiscuit</a>
+      </div>
+    </footer>
+  </body>
+</html>

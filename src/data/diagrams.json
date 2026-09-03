@@ -1,0 +1,162 @@
+[
+  {
+    "id": "arch-characteristics",
+    "title": "Driving characteristics and their trade-offs",
+    "group": "practice",
+    "status": "current",
+    "blurb": "Which qualities this system actually optimises for, and what each one costs. Naming the tension is the point — 'token friction versus safety' is a choice, not an accident.",
+    "order": 1
+  },
+  {
+    "id": "arch-coupling-tradeoff",
+    "title": "An auth decision, written as an ADR",
+    "group": "practice",
+    "status": "current",
+    "blurb": "Two options for how a browser extension authenticates to a backend, decided on coupling and connascence. Option A shares a cookie; Option B issues a scoped token. B was chosen, and the negative consequences are recorded alongside the positive ones.",
+    "order": 2
+  },
+  {
+    "id": "arch-trust-boundaries",
+    "title": "STRIDE over a data-flow diagram",
+    "group": "practice",
+    "status": "current",
+    "blurb": "Four trust zones — your device, a third-party provider, my backend, model providers — with each STRIDE class mapped to the control that answers it. The interesting boundary is the one I do not own.",
+    "order": 3
+  },
+  {
+    "id": "arch-algorithmic-core",
+    "title": "The domain as a state machine",
+    "group": "practice",
+    "status": "current",
+    "blurb": "Modelling the core of the product as explicit states and transitions rather than as procedures, so the rules live in one place instead of being spread across handlers.",
+    "order": 4
+  },
+  {
+    "id": "arch-deploy-pipeline",
+    "title": "How a change reaches production",
+    "group": "platform",
+    "status": "current",
+    "blurb": "A commit to a manifest, through reconciliation, to a running pod — including what happens when someone changes the cluster by hand instead. The drift is reverted, and that is the feature.",
+    "order": 5
+  },
+  {
+    "id": "platform",
+    "title": "Platform topology",
+    "group": "platform",
+    "status": "current",
+    "blurb": "A single node running everything: GitOps reconciliation, secrets from Vault surfaced by external-secrets, SSO in front of each service, and deliberately vulnerable lab workloads isolated in their own namespaces. Network addresses are redacted here.",
+    "order": 6
+  },
+  {
+    "id": "fluency-containers",
+    "title": "Fluency — container view",
+    "group": "product",
+    "status": "current",
+    "blurb": "C4-style container diagram for the learning app: what runs, what stores state, and which boundaries carry authentication.",
+    "order": 7
+  },
+  {
+    "id": "fluency-queue",
+    "title": "One review queue, two sources",
+    "group": "product",
+    "status": "current",
+    "blurb": "Two independent card sources feeding a single scheduling spine. The design constraint was that a learner should never be asked which queue they are in.",
+    "order": 8
+  },
+  {
+    "id": "fluency-deck-generation",
+    "title": "Deck generation, with a control stage",
+    "group": "product",
+    "status": "current",
+    "blurb": "A two-stage generation pipeline where the second stage exists to constrain the first. Generation without a control stage produces plausible cards that teach the wrong thing.",
+    "order": 9
+  },
+  {
+    "id": "fluency-reading-companion",
+    "title": "Reading companion — bookend retrieval",
+    "group": "product",
+    "status": "current",
+    "blurb": "An overlay over a third-party reading platform that turns what you just read into scheduled recall, without persisting the licensed text. The trust boundary here is the one that matters.",
+    "order": 10
+  },
+  {
+    "id": "fluency-math-pipeline",
+    "title": "Math rendering — the delimiter contract",
+    "group": "product",
+    "status": "current",
+    "blurb": "As-is and to-be for math rendering, including an honest note that the fitness function meant to guard it is manual, tests the wrong renderer, and misses a real bug. Documenting a weak check is more useful than claiming a strong one.",
+    "order": 11
+  },
+  {
+    "id": "fluency-tts-bake",
+    "title": "Narration bake — serial versus pipelined",
+    "group": "product",
+    "status": "current",
+    "blurb": "The same work done two ways, with the latency difference made explicit rather than asserted.",
+    "order": 12
+  },
+  {
+    "id": "ux-wireflow",
+    "title": "User flow — onboard once, then read",
+    "group": "product",
+    "status": "current",
+    "blurb": "The whole product from the outside: one setup step, then a loop the user repeats without ceremony.",
+    "order": 13
+  },
+  {
+    "id": "ux-loop-sequence",
+    "title": "One round-trip, frontstage and backstage",
+    "group": "product",
+    "status": "current",
+    "blurb": "A service-blueprint style sequence: what the user sees above the line, what the system does below it.",
+    "order": 14
+  },
+  {
+    "id": "platform-mcp-context",
+    "title": "Integration layer — context view",
+    "group": "proposed",
+    "status": "proposed",
+    "blurb": "A single adapter layer so several self-hosted apps can be driven through one interface. Designed, not deployed.",
+    "order": 15
+  },
+  {
+    "id": "platform-mcp-adapters",
+    "title": "The abstraction that survives three APIs",
+    "group": "proposed",
+    "status": "proposed",
+    "blurb": "Three services authenticate three different ways — a static bearer token, an exchanged JWT, an API key. The diagram works out what they genuinely share and refuses to abstract the rest.",
+    "order": 16
+  },
+  {
+    "id": "platform-mcp-tool-surface",
+    "title": "Tool surface and least privilege",
+    "group": "proposed",
+    "status": "proposed",
+    "blurb": "Every capability the layer would expose, scoped so that one compromised path cannot spend another service's credentials. Tokens stay server-side and never enter model context.",
+    "order": 17
+  },
+  {
+    "id": "knowledge-drift-core",
+    "title": "knowledge-drift — container view",
+    "group": "proposed",
+    "status": "proposed",
+    "blurb": "A system for noticing when documented knowledge and reality have diverged. Designed against a written spec.",
+    "order": 18
+  },
+  {
+    "id": "knowledge-drift-governance",
+    "title": "knowledge-drift — the governance loop",
+    "group": "proposed",
+    "status": "proposed",
+    "blurb": "Who decides that something has drifted, and what authority the loop has to act on it.",
+    "order": 19
+  },
+  {
+    "id": "rift-bingo",
+    "title": "Rift Bingo",
+    "group": "proposed",
+    "status": "current",
+    "blurb": "A smaller, complete side project — included because a corrected architecture is more honest than an idealised one.",
+    "order": 20
+  }
+]

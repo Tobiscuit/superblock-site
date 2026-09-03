@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const all = (await getCollection('diagrams')).sort((a, b) => a.data.order - b.data.order);
+const by = (g: string) => all.filter((d) => d.data.group === g);
+
+const bands = [
+  {
+    id: 'practice',
+    title: 'How the decisions get made',
+    lede:
+      'Threat models, architecture decision records, and explicit trade-offs. These are the diagrams I would defend in a review — each one names what it optimises for and what that costs.',
+    items: by('practice'),
+  },
+  {
+    id: 'platform',
+    title: 'The platform',
+    lede:
+      'One node running everything, reconciled from git. Secrets come from Vault through external-secrets; every service sits behind SSO; deliberately vulnerable lab workloads are isolated by namespace and default-deny network policy.',
+    items: by('platform'),
+  },
+  {
+    id: 'product',
+    title: 'The product on top of it',
+    lede:
+      'Fluency — spaced repetition with a reading companion. Container views, pipelines, and the places where the design had to give something up.',
+    items: by('product'),
+  },
+  {
+    id: 'proposed',
+    title: 'Designed, not deployed',
+    lede:
+      'Worked designs with no running implementation. Kept separate on purpose: the distinction between what runs and what was drawn matters more than the page looking fuller.',
+    items: by('proposed'),
+  },
+];
+---
+<Base
+  title="superblock — platform architecture"
+  description="Architecture diagrams for a self-hosted Kubernetes platform and the product running on it: threat models, ADRs, C4 container views and explicit trade-offs."
+>
+  <main>
+    <div class="wrap hero">
+      <div class="eyebrow">Platform architecture</div>
+      <h1 class="narrow">A production-shaped platform on one machine, and the reasoning behind it.</h1>
+      <p class="narrow">
+        Thirty-eight applications reconciled from git onto a single Kubernetes node. Secrets are
+        issued by Vault and surfaced through external-secrets; TLS terminates once at a Gateway;
+        authentication is centralised behind an OIDC provider; and the deliberately vulnerable
+        workloads used for security practice are isolated in their own namespaces under default-deny
+        network policy.
+      </p>
+      <p class="narrow">
+        The diagrams below are the interesting part. Anyone can list what they run — these show
+        which trade-offs were taken, which threats were modelled, and where a design gave something
+        up.
+      </p>
+
+      <div class="facts">
+        <div class="fact"><div class="n">38</div><div class="l">GitOps applications</div></div>
+        <div class="fact"><div class="n">1</div><div class="l">node, no cloud spend</div></div>
+        <div class="fact"><div class="n">21</div><div class="l">Gateway API routes</div></div>
+        <div class="fact"><div class="n">0</div><div class="l">secrets in git</div></div>
+      </div>
+    </div>
+
+    {bands.map((b) => (
+      <section class="band" id={b.id}>
+        <div class="wrap">
+          <h2>{b.title}</h2>
+          <p class="lede">{b.lede}</p>
+          <div class="grid">
+            {b.items.map((d) => (
+              <a class="card" href={`/d/${d.id}/`}>
+                <span class={`tag${d.data.status === 'proposed' ? ' proposed' : ''}`}>
+                  {d.data.status === 'proposed' ? 'Designed' : 'Running'}
+                </span>
+                <h3>{d.data.title}</h3>
+                <p>{d.data.blurb}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+</Base>
