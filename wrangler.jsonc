@@ -8,6 +8,19 @@
   "assets": {
     "directory": "./dist"
   },
+  // Custom domains are declared here rather than in Terraform. Cloudflare treats
+  // the Worker as the origin and manages the DNS record itself as a side effect
+  // of the deploy, so a cloudflare_workers_custom_domain resource in dns_infra
+  // would be a second owner of the same record - and would need the Worker to
+  // already exist, an ordering dependency this removes.
+  //
+  // custom_domain: true is the right form here (Worker IS the origin). A plain
+  // route would mean the Worker sits in front of an existing origin and would
+  // additionally require a proxied DNS record to already exist.
+  "routes": [
+    { "pattern": "superblock.dev", "custom_domain": true },
+    { "pattern": "www.superblock.dev", "custom_domain": true }
+  ],
   "observability": {
     "enabled": true
   }

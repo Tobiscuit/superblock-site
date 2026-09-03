@@ -1,0 +1,31 @@
+# Validate only. Deployment is Cloudflare Workers Builds, which runs on
+# Cloudflare from the connected repo - so no Cloudflare API token exists in
+# GitHub at all, and there is nothing here to leak.
+#
+# This workflow still earns its place: it runs on pull requests, where Workers
+# Builds does not deploy, so a change that would publish an internal address
+# fails review rather than reaching production.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 26
+          cache: npm
+      - run: npm ci
+      # `npm run build` runs astro build AND scripts/assert-clean.mjs, so the
+      # sanitisation guard is exercised by the same command Cloudflare runs.
+      - run: npm run build
