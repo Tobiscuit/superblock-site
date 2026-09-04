@@ -32,6 +32,17 @@ const groupLabel: Record<string, string> = {
       <img src={`/diagrams/${d.id}.svg`} alt={d.data.title} loading="eager" />
     </figure>
 
-    <p style="margin-top:24px"><a href="/">&larr; All diagrams</a></p>
+    <div class="diagram-actions">
+      <button class="explore" data-svg={`/diagrams/${d.id}.svg`} data-name={d.data.title}>
+        Explore &mdash; pan, zoom, recall
+      </button>
+      {/* No-JS fallback: an SVG opened directly still zooms natively in any
+          browser, so the diagram is never unreachable if the script fails. */}
+      <a href={`/diagrams/${d.id}.svg`} target="_blank" rel="noopener">open the SVG directly</a>
+    </div>
+
+    <p style="margin-top:28px"><a href="/">&larr; All diagrams</a></p>
+
+    <script is:inline src="/viewer.js" defer></script>
   </main>
 </Base>
