@@ -4,7 +4,7 @@
     "title": "Driving characteristics and their trade-offs",
     "group": "practice",
     "status": "current",
-    "blurb": "Which qualities this system actually optimises for, and what each one costs. Naming the tension is the point — 'token friction versus safety' is a choice, not an accident.",
+    "blurb": "Every architecture buys one quality by spending another; this one names both. Learnability and safety are in direct tension here — asking for a token is friction, and friction is what stops a careless action — so the diagram records the trade rather than pretending it was free.",
     "order": 1
   },
   {
@@ -12,7 +12,7 @@
     "title": "An auth decision, written as an ADR",
     "group": "practice",
     "status": "current",
-    "blurb": "Two options for how a browser extension authenticates to a backend, decided on coupling and connascence. Option A shares a cookie; Option B issues a scoped token. B was chosen, and the negative consequences are recorded alongside the positive ones.",
+    "blurb": "A shared session cookie was rejected in favour of a scoped token, and the reason was coupling, not security theatre. The cookie would have bound the extension to the app's session model; a bearer token couples them only by the name of one header. The negative consequences are recorded alongside the positive ones.",
     "order": 2
   },
   {
@@ -20,7 +20,7 @@
     "title": "STRIDE over a data-flow diagram",
     "group": "practice",
     "status": "current",
-    "blurb": "Four trust zones — your device, a third-party provider, my backend, model providers — with each STRIDE class mapped to the control that answers it. The interesting boundary is the one I do not own.",
+    "blurb": "Four trust zones, and the most important one is the zone I do not control. Each STRIDE class is mapped to the specific control that answers it — spoofing to a scoped bearer token rather than an ambient cookie, information disclosure to keeping licensed text transient and never persisting it.",
     "order": 3
   },
   {
@@ -28,7 +28,7 @@
     "title": "The domain as a state machine",
     "group": "practice",
     "status": "current",
-    "blurb": "Modelling the core of the product as explicit states and transitions rather than as procedures, so the rules live in one place instead of being spread across handlers.",
+    "blurb": "The rules live in one place instead of being scattered across request handlers. Modelling the core as explicit states and transitions means an invalid transition is unrepresentable rather than merely unlikely.",
     "order": 4
   },
   {
@@ -36,7 +36,7 @@
     "title": "How a change reaches production",
     "group": "platform",
     "status": "current",
-    "blurb": "A commit to a manifest, through reconciliation, to a running pod — including what happens when someone changes the cluster by hand instead. The drift is reverted, and that is the feature.",
+    "blurb": "A commit to a manifest becomes a running pod, and a change made by hand gets reverted. That reversion is the feature: if the cluster can drift from git without anyone noticing, git is documentation rather than a source of truth.",
     "order": 5
   },
   {
@@ -44,7 +44,7 @@
     "title": "Platform topology",
     "group": "platform",
     "status": "current",
-    "blurb": "A single node running everything: GitOps reconciliation, secrets from Vault surfaced by external-secrets, SSO in front of each service, and deliberately vulnerable lab workloads isolated in their own namespaces. Network addresses are redacted here.",
+    "blurb": "Thirty-eight applications on one node, reconciled from git, with no secrets in the repository. Vault issues credentials that external-secrets materialises into the cluster; every service sits behind one identity provider; and the deliberately vulnerable workloads used for security practice are isolated by namespace under default-deny network policy. Network addresses are redacted here.",
     "order": 6
   },
   {
@@ -52,7 +52,7 @@
     "title": "Fluency — container view",
     "group": "product",
     "status": "current",
-    "blurb": "C4-style container diagram for the learning app: what runs, what stores state, and which boundaries carry authentication.",
+    "blurb": "The learning app at C4 container level: what runs, what holds state, and which boundaries carry authentication. Useful mainly as the map the other Fluency diagrams zoom into.",
     "order": 7
   },
   {
@@ -60,7 +60,7 @@
     "title": "One review queue, two sources",
     "group": "product",
     "status": "current",
-    "blurb": "Two independent card sources feeding a single scheduling spine. The design constraint was that a learner should never be asked which queue they are in.",
+    "blurb": "A learner should never have to know which queue they are in. Two independent card sources feed a single scheduling spine, which is harder than running two queues and is the entire reason the product feels like one thing.",
     "order": 8
   },
   {
@@ -68,7 +68,7 @@
     "title": "Deck generation, with a control stage",
     "group": "product",
     "status": "current",
-    "blurb": "A two-stage generation pipeline where the second stage exists to constrain the first. Generation without a control stage produces plausible cards that teach the wrong thing.",
+    "blurb": "Generation without a control stage produces plausible cards that teach the wrong thing. The second stage exists purely to constrain the first — the expensive part was deciding what it should refuse, not what it should produce.",
     "order": 9
   },
   {
@@ -76,7 +76,7 @@
     "title": "Reading companion — bookend retrieval",
     "group": "product",
     "status": "current",
-    "blurb": "An overlay over a third-party reading platform that turns what you just read into scheduled recall, without persisting the licensed text. The trust boundary here is the one that matters.",
+    "blurb": "Turns what you just read into scheduled recall without ever storing the licensed text. The passage is transient input; only the questions derived from it persist. That constraint shaped the whole design, and it is the boundary the threat model is built around.",
     "order": 10
   },
   {
@@ -84,7 +84,7 @@
     "title": "Math rendering — the delimiter contract",
     "group": "product",
     "status": "current",
-    "blurb": "As-is and to-be for math rendering, including an honest note that the fitness function meant to guard it is manual, tests the wrong renderer, and misses a real bug. Documenting a weak check is more useful than claiming a strong one.",
+    "blurb": "The check meant to guard this is manual, tests the wrong renderer, and misses a real bug — and the diagram says so. Documenting a weak fitness function is more useful than claiming a strong one, because the next person to touch it needs to know what it does not cover.",
     "order": 11
   },
   {
@@ -92,7 +92,7 @@
     "title": "Narration bake — serial versus pipelined",
     "group": "product",
     "status": "current",
-    "blurb": "The same work done two ways, with the latency difference made explicit rather than asserted.",
+    "blurb": "The same work drawn twice, so the latency difference is visible rather than asserted. Pipelining helps here because the stages are independent; the diagram exists to show that, not to claim it.",
     "order": 12
   },
   {
@@ -100,7 +100,7 @@
     "title": "User flow — onboard once, then read",
     "group": "product",
     "status": "current",
-    "blurb": "The whole product from the outside: one setup step, then a loop the user repeats without ceremony.",
+    "blurb": "One setup step, then a loop the user repeats without ceremony. Everything that could have been a settings screen was pushed into that single step deliberately.",
     "order": 13
   },
   {
@@ -108,7 +108,7 @@
     "title": "One round-trip, frontstage and backstage",
     "group": "product",
     "status": "current",
-    "blurb": "A service-blueprint style sequence: what the user sees above the line, what the system does below it.",
+    "blurb": "Service-blueprint style: what the user sees above the line, what the system does below it. The gap between the two is where the perceived latency budget gets spent.",
     "order": 14
   },
   {
@@ -116,7 +116,7 @@
     "title": "Integration layer — context view",
     "group": "proposed",
     "status": "proposed",
-    "blurb": "A single adapter layer so several self-hosted apps can be driven through one interface. Designed, not deployed.",
+    "blurb": "One adapter layer so several self-hosted applications can be driven through a single interface. Designed against a written spec; nothing is deployed.",
     "order": 15
   },
   {
@@ -124,7 +124,7 @@
     "title": "The abstraction that survives three APIs",
     "group": "proposed",
     "status": "proposed",
-    "blurb": "Three services authenticate three different ways — a static bearer token, an exchanged JWT, an API key. The diagram works out what they genuinely share and refuses to abstract the rest.",
+    "blurb": "Three services authenticate three different ways, and the useful work was deciding what not to abstract. A static bearer token, an exchanged JWT and an API key share exactly one thing — an HTTP request carrying a credential — so that is all the interface promises.",
     "order": 16
   },
   {
@@ -132,7 +132,7 @@
     "title": "Tool surface and least privilege",
     "group": "proposed",
     "status": "proposed",
-    "blurb": "Every capability the layer would expose, scoped so that one compromised path cannot spend another service's credentials. Tokens stay server-side and never enter model context.",
+    "blurb": "Credentials stay server-side and never enter model context. Every capability is scoped so one compromised path cannot spend another service's credentials — the design assumes the caller is non-deterministic and may be wrong.",
     "order": 17
   },
   {
@@ -140,7 +140,7 @@
     "title": "knowledge-drift — container view",
     "group": "proposed",
     "status": "proposed",
-    "blurb": "A system for noticing when documented knowledge and reality have diverged. Designed against a written spec.",
+    "blurb": "A system for noticing when documented knowledge and reality have diverged. Container view, designed against a written spec.",
     "order": 18
   },
   {
@@ -148,7 +148,7 @@
     "title": "knowledge-drift — the governance loop",
     "group": "proposed",
     "status": "proposed",
-    "blurb": "Who decides that something has drifted, and what authority the loop has to act on it.",
+    "blurb": "Detecting drift is easy; deciding who gets to act on it is the hard part. This is the authority model — who declares something stale, and what the loop is permitted to change on its own.",
     "order": 19
   },
   {
@@ -156,7 +156,7 @@
     "title": "Rift Bingo",
     "group": "proposed",
     "status": "current",
-    "blurb": "A smaller, complete side project — included because a corrected architecture is more honest than an idealised one.",
+    "blurb": "A smaller project, drawn as it actually is rather than as it was meant to be. Included because a corrected architecture is more honest than an idealised one.",
     "order": 20
   }
 ]
