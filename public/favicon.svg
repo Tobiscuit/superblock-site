@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Two nodes and an edge: the simplest true depiction of what this site is.
+       Traced to vector from the generated mark, because a favicon is rendered at
+       16px and a raster at that size loses its edges. The generated raster is
+       kept for the 180px apple-touch-icon, where detail survives. -->
+  <rect width="64" height="64" rx="14" fill="#3d5a80"/>
+  <!-- node A, upper left -->
+  <rect x="11" y="11" width="23" height="23" rx="5" fill="#f7f7f6"/>
+  <!-- edge: out of A's right, down, and into B's top -->
+  <path d="M34 19 h13 a3 3 0 0 1 3 3 v14 h-6 V25 h-10 z" fill="#f7f7f6"/>
+  <!-- edge: out of A's bottom, down, and into B's left -->
+  <path d="M19 34 v14 a3 3 0 0 0 3 3 h14 v-6 H25 v-11 z" fill="#f7f7f6"/>
+  <!-- node B, lower right -->
+  <rect x="36" y="36" width="17" height="17" rx="4" fill="#f7f7f6"/>
+</svg>

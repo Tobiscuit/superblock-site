@@ -4,8 +4,13 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description: string;
+  /** Per-page social image. Defaults to the site card. */
+  image?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, image = '/og.jpg' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+// og:image must be absolute: crawlers do not resolve relative URLs.
+const ogImage = new URL(image, Astro.site);
 ---
 <!doctype html>
 <html lang="en">
@@ -14,10 +19,29 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- An SVG favicon carries its own prefers-color-scheme, so the mark stays
+         visible against both browser chromes. The 180px PNG is for iOS, which
+         does not accept SVG. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#3d5a80" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="superblock" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="An engineering drawing sheet titled PLATFORM ARCHITECTURE, superblock.dev" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
