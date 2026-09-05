@@ -160,11 +160,11 @@
     "order": 20
   },
   {
-    "id": "platform-two-site-dr",
-    "title": "Two sites, one git, no shared quorum",
+    "id": "platform-failover-witness",
+    "title": "Split-brain, and the third box that prevents it",
     "group": "proposed",
     "status": "proposed",
-    "blurb": "A second node in another cloud, where the decision that mattered was what not to build. One cluster stretched across both sites is the obvious move and it is arithmetically wrong: two etcd members require both to be up, which is strictly worse than one, and a partition would then break both sites at once. Independent clusters, a single git source, and asynchronous replication that needs no quorum at all.",
+    "blurb": "Two sites can replicate; two sites cannot safely fail over. Neither can tell 'the other one died' from 'the link between us broke', and promoting in the second case gives you two primaries taking writes with no way to merge them. The answer is not a better heartbeat but a third party in a third failure domain that arbitrates who is permitted to be primary \u2014 holding no data and serving no traffic. The failure matrix is the point: losing the arbiter costs you automatic failover and nothing else.",
     "order": 21
   }
 ]
